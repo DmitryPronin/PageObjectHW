@@ -3,6 +3,9 @@ package guru.qa;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.junit5.SoftAssertsExtension;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.AutomationPracticeForm;
 
 import static com.codeborne.selenide.AssertionMode.SOFT;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static testdata.UserData.*;
 
 @ExtendWith({SoftAssertsExtension.class})
@@ -20,6 +24,8 @@ public class AutomationPracticeFormTest {
 
     @BeforeAll
     static void setUp(){
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.assertionMode = SOFT;
         Configuration.browserSize = "1920x1080";
@@ -29,7 +35,15 @@ public class AutomationPracticeFormTest {
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
         Configuration.browserCapabilities = capabilities;
+    }
 
+    @AfterEach
+    void addAttachments() {
+        helpers.Attach.screenshotAs("Last screenshot");
+        helpers.Attach.pageSource();
+        helpers.Attach.browserConsoleLogs();
+        helpers.Attach.addVideo();
+        closeWebDriver();
     }
 
     @Test
