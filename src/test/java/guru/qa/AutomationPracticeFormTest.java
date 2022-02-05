@@ -31,6 +31,8 @@ public class AutomationPracticeFormTest {
         Configuration.browserSize = "1920x1080";
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
+
+
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
@@ -59,7 +61,7 @@ public class AutomationPracticeFormTest {
                 .chooseDateOfBirth("27", "February", "1988")
                 .chooseHobby(hobby)
                 .chooseSubject(subject)
-                .uploadPicture(path)
+//                .uploadPicture(path)
                 .fillAddressInformation(address, state, city)
                 .submit();
 
@@ -71,7 +73,7 @@ public class AutomationPracticeFormTest {
                 .checkAutomationPracticeForm("Date of Birth", "27 February,1988")
                 .checkAutomationPracticeForm("Subjects", subject)
                 .checkAutomationPracticeForm("Hobbies", hobby)
-                .checkAutomationPracticeForm("Picture", path.substring(6))
+//                .checkAutomationPracticeForm("Picture", path.substring(6))
                 .checkAutomationPracticeForm("State and City", state + " " + city);
     }
 }
